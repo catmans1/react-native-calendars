@@ -1,5 +1,5 @@
 {
-  "name": "react-native-calendars",
+  "name": "@catmans1/react-native-calendars",
   "version": "1.22.0",
   "main": "src/index.ts",
   "types": "src/index.d.ts",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wix/react-native-calendars"
+    "url": "https://github.com/catmans1/react-native-calendars.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

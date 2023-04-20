@@ -36,7 +36,7 @@ The package is compatible with both **Android** and **iOS**
 You can run a sample module using these steps:
 
 ```
-$ git clone git@github.com:wix/react-native-calendars.git
+$ git clone git@github.com:catmans1/react-native-calendars.git
 
 $ cd react-native-calendars
 
@@ -60,13 +60,13 @@ Here's how to get started with react-native-calendars in your React Native proje
 Using `npm`:
 
 ```
-$ npm install --save react-native-calendars
+$ npm install --save @catmans1/react-native-calendars
 ```
 
 Using `Yarn`:
 
 ```
-$ yarn add react-native-calendars
+$ yarn add @catmans1/react-native-calendars
 ```
 
 **RN Calendars is implemented in JavaScript, so no native module linking is required.**

@@ -1,10 +1,10 @@
-import React, {Fragment, useCallback, useRef} from 'react';
-import {TouchableOpacity, Text, View, ViewProps} from 'react-native';
+import React, { Fragment, useCallback, useRef } from 'react';
+import { TouchableOpacity, Text, View, ViewProps } from 'react-native';
 
-import {xdateToData} from '../../../interface';
-import {Theme, DayState, MarkingTypes, DateData} from '../../../types';
+import { xdateToData } from '../../../interface';
+import { Theme, DayState, MarkingTypes, DateData } from '../../../types';
 import styleConstructor from './style';
-import Marking, {MarkingProps} from '../marking';
+import Marking, { MarkingProps } from '../marking';
 
 
 export interface BasicDayProps extends ViewProps {
@@ -60,7 +60,7 @@ const BasicDay = (props: BasicDayProps) => {
   const dateData = date ? xdateToData(date) : undefined;
 
   const shouldDisableTouchEvent = () => {
-    const {disableTouchEvent} = _marking;
+    const { disableTouchEvent } = _marking;
     let disableTouch = false;
 
     if (typeof disableTouchEvent === 'boolean') {
@@ -74,13 +74,13 @@ const BasicDay = (props: BasicDayProps) => {
   };
 
   const getContainerStyle = () => {
-    const {customStyles, selectedColor} = _marking;
+    const { customStyles, selectedColor } = _marking;
     const styles = [style.current.base];
 
     if (isSelected) {
       styles.push(style.current.selected);
       if (selectedColor) {
-        styles.push({backgroundColor: selectedColor});
+        styles.push({ backgroundColor: selectedColor });
       }
     } else if (isToday) {
       styles.push(style.current.today);
@@ -94,17 +94,23 @@ const BasicDay = (props: BasicDayProps) => {
       styles.push(customStyles.container);
     }
 
+    // Custom circle HungLe
+    styles.push(customStyles?.container);
+    styles.push({
+      padding: 3
+    });
+
     return styles;
   };
 
   const getTextStyle = () => {
-    const {customStyles, selectedTextColor} = _marking;
+    const { customStyles, selectedTextColor } = _marking;
     const styles = [style.current.text];
 
     if (isSelected) {
       styles.push(style.current.selectedText);
       if (selectedTextColor) {
-        styles.push({color: selectedTextColor});
+        styles.push({ color: selectedTextColor });
       }
     } else if (isDisabled) {
       styles.push(style.current.disabledText);
@@ -119,11 +125,15 @@ const BasicDay = (props: BasicDayProps) => {
       styles.push(customStyles.text);
     }
 
+    // Custom circle HungLe
+    styles.push(customStyles?.text);
+
     return styles;
   };
 
-  const _onPress = useCallback(() => {
-    onPress?.(dateData);
+  const _onPress = useCallback((event: any) => {
+    // // nativeEvent HungLe
+    onPress?.({ ...dateData, nativeEvent: event.nativeEvent });
   }, [onPress, date]);
 
   const _onLongPress = useCallback(() => {
@@ -131,7 +141,7 @@ const BasicDay = (props: BasicDayProps) => {
   }, [onLongPress, date]);
 
   const renderMarking = () => {
-    const {marked, dotColor, dots, periods} = _marking;
+    const { marked, dotColor, dots, periods } = _marking;
 
     return (
       <Marking
@@ -167,7 +177,7 @@ const BasicDay = (props: BasicDayProps) => {
   };
 
   const renderContainer = () => {
-    const {activeOpacity} = _marking;
+    const { activeOpacity } = _marking;
 
     return (
       <TouchableOpacity
