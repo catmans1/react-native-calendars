@@ -1,39 +1,9 @@
-import React, { Fragment, useCallback, useRef } from 'react';
-import { TouchableOpacity, Text, View, ViewProps } from 'react-native';
-
-import { xdateToData } from '../../../interface';
-import { Theme, DayState, MarkingTypes, DateData } from '../../../types';
+import React, {Fragment, useCallback, useRef} from 'react';
+import {TouchableOpacity, Text, View} from 'react-native';
+import {xdateToData} from '../../../interface';
 import styleConstructor from './style';
-import Marking, { MarkingProps } from '../marking';
-
-
-export interface BasicDayProps extends ViewProps {
-  state?: DayState;
-  /** The marking object */
-  marking?: MarkingProps;
-  /** Date marking style [dot/multi-dot/period/multi-period]. Default = 'dot' */
-  markingType?: MarkingTypes;
-  /** Theme object */
-  theme?: Theme;
-  /** onPress callback */
-  onPress?: (date?: DateData) => void;
-  /** onLongPress callback */
-  onLongPress?: (date?: DateData) => void;
-  /** The date to return from press callbacks */
-  date?: string;
-
-  /** Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates*/
-  disableAllTouchEventsForDisabledDays?: boolean;
-  /** Disable all touch events for inactive days. can be override with disableTouchEvent in markedDates*/
-  disableAllTouchEventsForInactiveDays?: boolean;
-
-  /** Test ID */
-  testID?: string;
-  /** Accessibility label */
-  accessibilityLabel?: string;
-}
-
-const BasicDay = (props: BasicDayProps) => {
+import Marking from '../marking';
+const BasicDay = props => {
   const {
     theme,
     date,
@@ -58,11 +28,9 @@ const BasicDay = (props: BasicDayProps) => {
   const isMultiPeriod = markingType === Marking.markings.MULTI_PERIOD;
   const isCustom = markingType === Marking.markings.CUSTOM;
   const dateData = date ? xdateToData(date) : undefined;
-
   const shouldDisableTouchEvent = () => {
-    const { disableTouchEvent } = _marking;
+    const {disableTouchEvent} = _marking;
     let disableTouch = false;
-
     if (typeof disableTouchEvent === 'boolean') {
       disableTouch = disableTouchEvent;
     } else if (typeof disableAllTouchEventsForDisabledDays === 'boolean' && isDisabled) {
@@ -72,20 +40,17 @@ const BasicDay = (props: BasicDayProps) => {
     }
     return disableTouch;
   };
-
   const getContainerStyle = () => {
-    const { customStyles, selectedColor } = _marking;
+    const {customStyles, selectedColor} = _marking;
     const styles = [style.current.base];
-
     if (isSelected) {
       styles.push(style.current.selected);
       if (selectedColor) {
-        styles.push({ backgroundColor: selectedColor });
+        styles.push({backgroundColor: selectedColor});
       }
     } else if (isToday) {
       styles.push(style.current.today);
     }
-
     //Custom marking type
     if (isCustom && customStyles && customStyles.container) {
       if (customStyles.container.borderRadius === undefined) {
@@ -93,24 +58,20 @@ const BasicDay = (props: BasicDayProps) => {
       }
       styles.push(customStyles.container);
     }
-
     // Custom circle HungLe
     styles.push(customStyles?.container);
     styles.push({
       padding: 3
     });
-
     return styles;
   };
-
   const getTextStyle = () => {
-    const { customStyles, selectedTextColor } = _marking;
+    const {customStyles, selectedTextColor} = _marking;
     const styles = [style.current.text];
-
     if (isSelected) {
       styles.push(style.current.selectedText);
       if (selectedTextColor) {
-        styles.push({ color: selectedTextColor });
+        styles.push({color: selectedTextColor});
       }
     } else if (isDisabled) {
       styles.push(style.current.disabledText);
@@ -119,34 +80,35 @@ const BasicDay = (props: BasicDayProps) => {
     } else if (isInactive) {
       styles.push(style.current.inactiveText);
     }
-
     //Custom marking type
     if (isCustom && customStyles && customStyles.text) {
       styles.push(customStyles.text);
     }
-
     // Custom circle HungLe
     styles.push(customStyles?.text);
-
     return styles;
   };
-
-  const _onPress = useCallback((event: { nativeEvent: { pageX: number, pageY: number, locationX: number, locationY: number } }) => {
-    // // nativeEvent HungLe
-    if (dateData) {
-      const nativeEvent = event.nativeEvent
-      dateData.nativeEvent = { pageX: nativeEvent.pageX, pageY: nativeEvent.pageY, locationX: nativeEvent.locationX, locationY: nativeEvent.locationY }
-    }
-    onPress?.(dateData);
-  }, [onPress, date]);
-
+  const _onPress = useCallback(
+    event => {
+      // // nativeEvent HungLe
+      if (dateData) {
+        const nativeEvent = event.nativeEvent;
+        dateData.nativeEvent = {
+          pageX: nativeEvent.pageX,
+          pageY: nativeEvent.pageY,
+          locationX: nativeEvent.locationX,
+          locationY: nativeEvent.locationY
+        };
+      }
+      onPress?.(dateData);
+    },
+    [onPress, date]
+  );
   const _onLongPress = useCallback(() => {
     onLongPress?.(dateData);
   }, [onLongPress, date]);
-
   const renderMarking = () => {
-    const { marked, dotColor, dots, periods } = _marking;
-
+    const {marked, dotColor, dots, periods} = _marking;
     return (
       <Marking
         type={markingType}
@@ -162,7 +124,6 @@ const BasicDay = (props: BasicDayProps) => {
       />
     );
   };
-
   const renderText = () => {
     return (
       <Text allowFontScaling={false} style={getTextStyle()}>
@@ -170,7 +131,6 @@ const BasicDay = (props: BasicDayProps) => {
       </Text>
     );
   };
-
   const renderContent = () => {
     return (
       <Fragment>
@@ -179,10 +139,8 @@ const BasicDay = (props: BasicDayProps) => {
       </Fragment>
     );
   };
-
   const renderContainer = () => {
-    const { activeOpacity } = _marking;
-
+    const {activeOpacity} = _marking;
     return (
       <TouchableOpacity
         testID={testID}
@@ -199,7 +157,6 @@ const BasicDay = (props: BasicDayProps) => {
       </TouchableOpacity>
     );
   };
-
   const renderPeriodsContainer = () => {
     return (
       <View style={style.current.container}>
@@ -208,9 +165,7 @@ const BasicDay = (props: BasicDayProps) => {
       </View>
     );
   };
-
   return isMultiPeriod ? renderPeriodsContainer() : renderContainer();
 };
-
 export default BasicDay;
 BasicDay.displayName = 'BasicDay';
