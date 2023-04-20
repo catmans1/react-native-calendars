@@ -16,6 +16,7 @@ export function xdateToData(date: XDate | string) {
     day: d.getDate(),
     timestamp: new XDate(dateString, true).getTime(),
     dateString: dateString,
+    nativeEvent: { pageX: 0, pageY: 0, locationX: 0, locationY: 0 }
   };
 }
 

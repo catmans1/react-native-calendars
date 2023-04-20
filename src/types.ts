@@ -17,6 +17,7 @@ export type DateData = {
   day: number;
   timestamp: number;
   dateString: string;
+  nativeEvent: { pageX: number, pageY: number, locationX: number, locationY: number };
 };
 export interface Theme {
   timelineContainer?: object;
@@ -76,11 +77,11 @@ export interface Theme {
   weekVerticalMargin?: number;
   stylesheet?: {
     calendar?: {
-      main?: object; 
+      main?: object;
       header?: object;
     };
     day?: {
-      basic?: object; 
+      basic?: object;
       period?: object;
     };
     dot?: object;
@@ -89,7 +90,7 @@ export interface Theme {
       main?: object;
     };
     agenda?: {
-      main?: object; 
+      main?: object;
       list?: object;
     };
     expandable?: {

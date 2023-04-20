@@ -131,9 +131,13 @@ const BasicDay = (props: BasicDayProps) => {
     return styles;
   };
 
-  const _onPress = useCallback((event: any) => {
+  const _onPress = useCallback((event: { nativeEvent: { pageX: number, pageY: number, locationX: number, locationY: number } }) => {
     // // nativeEvent HungLe
-    onPress?.({ ...dateData, nativeEvent: event.nativeEvent });
+    if (dateData) {
+      const nativeEvent = event.nativeEvent
+      dateData.nativeEvent = { pageX: nativeEvent.pageX, pageY: nativeEvent.pageY, locationX: nativeEvent.locationX, locationY: nativeEvent.locationY }
+    }
+    onPress?.(dateData); // eslint-disable-line
   }, [onPress, date]);
 
   const _onLongPress = useCallback(() => {
