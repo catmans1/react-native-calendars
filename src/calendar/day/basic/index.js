@@ -75,8 +75,6 @@ const BasicDay = props => {
       }
     } else if (isDisabled) {
       styles.push(style.current.disabledText);
-      // Custom day text HungLe
-      styles.push({color: '#E5E5E5'});
     } else if (isToday) {
       styles.push(style.current.todayText);
     } else if (isInactive) {
