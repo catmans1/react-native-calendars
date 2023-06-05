@@ -1,6 +1,6 @@
 {
   "name": "@catmans1/react-native-calendars",
-  "version": "1.22.0",
+  "version": "1.22.2",
   "main": "src/index.ts",
   "types": "src/index.d.ts",
   "description": "React Native Calendar Components",

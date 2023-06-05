@@ -107,6 +107,8 @@ const CalendarHeader = forwardRef((props, ref) => {
       if (style.current[dayTextAtIndex]) {
         dayStyle.push(style.current[dayTextAtIndex]);
       }
+      // Custom month text HungLe
+      dayStyle.push({color: '#454545'});
       return (
         <Text allowFontScaling={false} key={index} style={dayStyle} numberOfLines={1} accessibilityLabel={''}>
           {day}
